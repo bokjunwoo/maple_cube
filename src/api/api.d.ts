@@ -25,7 +25,7 @@ interface CubeResultOptionDTO {
 }
 
 interface CubeHistoryResponseDTO {
-  count: number;
+  count: number | undefined;
   cube_histories: CubeHistory[];
   next_cursor: string;
 }
