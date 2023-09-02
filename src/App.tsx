@@ -1,7 +1,11 @@
-import React from 'react';
+import { DateRangeInput } from './components/DateRangeInput';
 
 const App = () => {
-  return <div className="text-3xl font-bold">메이플 큐브</div>;
+  return (
+    <>
+      <DateRangeInput />
+    </>
+  );
 };
 
 export default App;
