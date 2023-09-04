@@ -7,23 +7,8 @@ import {
   isValidDateFormat,
   isToday,
 } from '../util/util';
-
-const CharacterItem = ({ targetItem }: any) => {
-  return <li>{targetItem}</li>;
-};
-
-const CharacterDetail = ({ characterName, targetItems }: any) => {
-  return (
-    <div>
-      <h3>{characterName}</h3>
-      <ul>
-        {targetItems.map((item: any, index: any) => (
-          <CharacterItem key={index} targetItem={item} />
-        ))}
-      </ul>
-    </div>
-  );
-};
+import { SelectCharacter } from './SelectCharacter';
+import { SelectItem } from './SelectItem';
 
 export const DateRangeInput = () => {
   const key = process.env.REACT_APP_API_KEY || '';
@@ -31,6 +16,8 @@ export const DateRangeInput = () => {
   const [data, setData] = useState<CubeHistoryResponseDTO>();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [selectedCharacter, setSelectedCharacter] = useState('');
+  const [selectedItem, setSelectedItem] = useState('');
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value);
@@ -38,6 +25,14 @@ export const DateRangeInput = () => {
 
   const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEndDate(e.target.value);
+  };
+
+  const handleCharacterSelect = (characterName: string) => {
+    setSelectedCharacter(characterName);
+  };
+
+  const handleItemSelect = (item: string) => {
+    setSelectedItem(item);
   };
 
   const isValidSelection = isValidSelectionDate(startDate);
@@ -74,18 +69,9 @@ export const DateRangeInput = () => {
     });
   };
 
-  const characterNames = [
-    ...new Set(data?.cube_histories.map((item) => item.character_name)),
-  ];
-
-  console.log(characterNames);
   console.log(data);
-
-  const [selectedWorld, setSelectedWorld] = useState('');
-
-  const handleWorldButtonClick = (characterName: string) => {
-    setSelectedWorld(characterName);
-  };
+  console.log('selectedCharacter', selectedCharacter);
+  console.log('selectedItem', selectedItem);
 
   return (
     <>
@@ -99,39 +85,32 @@ export const DateRangeInput = () => {
       {!isValidFormat && <p>날짜 형식이 잘못 입력되었습니다.</p>}
       {!isNotLater && <p>오늘날짜 이전일 까지 선택가능합니다.</p>}
 
-      {characterNames.map((characterName) => (
-        <button
-          key={characterName}
-          onClick={() => handleWorldButtonClick(characterName)}
-        >
-          {characterName}
-        </button>
-      ))}
-
-      {selectedWorld && (
-        <div>
-          <h2>{selectedWorld}</h2>
-          <ul>
-            {[
-              ...new Set(
-                data?.cube_histories
-                  .filter((item) => item.character_name === selectedWorld)
-                  .map((item) => item.target_item)
-              ),
-            ].map((targetItem, index) => (
-              <li key={index}>{targetItem}</li>
-            ))}
-          </ul>
-        </div>
+      {data && (
+        <h2>
+          {startDate} ~ {endDate}로 조회된 총 큐브 사용내역은 {data.count}개
+          입니다.
+        </h2>
       )}
 
-      {selectedWorld && (
-        <CharacterDetail
-          characterName={selectedWorld}
-          targetItems={data?.cube_histories
-            .filter((item) => item.character_name === selectedWorld)
-            .map((item) => item.target_item)}
+      {data && (
+        <SelectCharacter
+          data={data.cube_histories}
+          onSelect={handleCharacterSelect}
+          selectedCharacter={selectedCharacter}
         />
+      )}
+
+      {data && selectedCharacter !== '' && (
+        <>
+          <SelectItem
+            data={data.cube_histories}
+            onSelect={handleItemSelect}
+            selectedCharacter={selectedCharacter}
+            selectedItem={selectedItem}
+          />
+
+          {/* <h3>{selectedItem}의 큐브 사용 개수는 {}</h3> */}
+        </>
       )}
     </>
   );
