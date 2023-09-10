@@ -1,13 +1,12 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
-import axios from 'axios';
-
 import dotenv from 'dotenv';
+import axios from 'axios';
 dotenv.config();
 
 const PORT: number | string = process.env.PORT || 4000;
 
-const app = express();
+const app: express.Application = express();
 
 /* cors */
 const corsOptionsDev: cors.CorsOptions = {
@@ -22,7 +21,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req: express.Request, res: express.Response) => {
+app.get('/', (req: Request, res: Response) => {
   res.status(200).send('maple_cube API');
 });
 
