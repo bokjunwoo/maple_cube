@@ -9,7 +9,7 @@ export const SelectCubeType = ({
   data,
   selectedCubeType,
 }: SelectCubeTypeType) => {
-  const otpionGrade = [
+  const optionGrade = [
     ...new Set(
       data.map(
         (item) =>
@@ -17,10 +17,24 @@ export const SelectCubeType = ({
             item.additional_potential_option_grade) ||
           (item.after_additional_potential_options.length === 0 &&
             item.potential_option_grade) ||
-          null
+          ''
       )
     ),
   ];
+
+  const gradeCounts: { [key: string]: number } = {};
+  data.forEach((item) => {
+    const grade =
+      (item.after_potential_options.length === 0 &&
+        item.additional_potential_option_grade) ||
+      (item.after_additional_potential_options.length === 0 &&
+        item.potential_option_grade);
+    if (grade) {
+      gradeCounts[grade] = (gradeCounts[grade] || 0) + 1;
+    }
+  });
+
+  console.log(gradeCounts);
 
   const potentialName =
     selectedCubeType === '수상한 에디셔널 큐브' ||
@@ -28,14 +42,15 @@ export const SelectCubeType = ({
       ? '에디셔널'
       : '잠재능력';
 
-  console.log('otpionGrade', otpionGrade);
+  console.log('optionGrade', optionGrade);
 
   return (
     <ul>
-      {otpionGrade.map((item) => {
+      {optionGrade.map((optionGrade) => {
         return (
-          <li key={item}>
-            {item} 등급 {potentialName}
+          <li key={optionGrade}>
+            {optionGrade} 등급 {potentialName} ({gradeCounts[optionGrade] || 0}
+            개)
           </li>
         );
       })}
