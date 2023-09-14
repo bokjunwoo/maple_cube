@@ -1,4 +1,5 @@
 import { CubeHistory } from '../api/api';
+import { ListCubeType } from './ListCubeTypeName';
 
 type SelectItemType = {
   data: CubeHistory[];
@@ -49,6 +50,8 @@ export const SelectItem = ({
           {selectedItem}의 큐브사용 개수는 {selectedItems.length}개 입니다.
         </h3>
       )}
+
+      {selectedItem && <ListCubeType data={selectedItems} />}
     </>
   );
 };

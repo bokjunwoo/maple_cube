@@ -101,16 +101,12 @@ export const DateRangeInput = () => {
       )}
 
       {data && selectedCharacter !== '' && (
-        <>
-          <SelectItem
-            data={data.cube_histories}
-            onSelect={handleItemSelect}
-            selectedCharacter={selectedCharacter}
-            selectedItem={selectedItem}
-          />
-
-          {/* <h3>{selectedItem}의 큐브 사용 개수는 {}</h3> */}
-        </>
+        <SelectItem
+          data={data.cube_histories}
+          onSelect={handleItemSelect}
+          selectedCharacter={selectedCharacter}
+          selectedItem={selectedItem}
+        />
       )}
     </>
   );
