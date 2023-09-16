@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { CubeHistory } from '../api/api';
+import { SelectCubeGrade } from './SelectCubeGrade';
 
 type SelectCubeTypeType = {
   data: CubeHistory[];
@@ -9,6 +11,13 @@ export const SelectCubeType = ({
   data,
   selectedCubeType,
 }: SelectCubeTypeType) => {
+  console.log(data);
+  const [selectedCubeGrade, setSelectedCubeGrade] = useState('');
+
+  const handleCubeGradeSelect = (cubeTypeName: string) => {
+    setSelectedCubeGrade(cubeTypeName);
+  };
+
   const optionGrade = [
     ...new Set(
       data.map(
@@ -45,15 +54,29 @@ export const SelectCubeType = ({
   console.log('optionGrade', optionGrade);
 
   return (
-    <ul>
-      {optionGrade.map((optionGrade) => {
-        return (
-          <li key={optionGrade}>
-            {optionGrade} 등급 {potentialName} ({gradeCounts[optionGrade] || 0}
-            개)
-          </li>
-        );
-      })}
-    </ul>
+    <>
+      <ul>
+        {optionGrade.map((optionGrade) => {
+          return (
+            <li
+              key={optionGrade}
+              onClick={() => handleCubeGradeSelect(optionGrade)}
+            >
+              {optionGrade} 등급 {potentialName} (
+              {gradeCounts[optionGrade] || 0}
+              개)
+            </li>
+          );
+        })}
+      </ul>
+
+      {optionGrade && (
+        <SelectCubeGrade
+          data={data}
+          selectedCubeGrade={selectedCubeGrade}
+          potentialName={potentialName}
+        />
+      )}
+    </>
   );
 };
