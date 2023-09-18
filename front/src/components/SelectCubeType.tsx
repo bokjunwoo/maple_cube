@@ -47,7 +47,8 @@ export const SelectCubeType = ({
 
   const potentialName =
     selectedCubeType === '수상한 에디셔널 큐브' ||
-    selectedCubeType === '에디셔널 큐브'
+    selectedCubeType === '에디셔널 큐브' ||
+    selectedCubeType === '화이트 에디셔널 큐브'
       ? '에디셔널'
       : '잠재능력';
 
@@ -75,6 +76,7 @@ export const SelectCubeType = ({
           data={data}
           selectedCubeGrade={selectedCubeGrade}
           potentialName={potentialName}
+          selectedCubeType={selectedCubeType}
         />
       )}
     </>
