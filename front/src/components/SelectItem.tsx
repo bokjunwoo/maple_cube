@@ -1,19 +1,21 @@
+import { useState } from 'react';
 import { CubeHistory } from '../api/api';
 import { ListCubeType } from './ListCubeTypeName';
+import { SelectChangeEvent } from '@mui/material';
+import { SelectUI } from './ui/SelectUI';
 
 type SelectItemType = {
   data: CubeHistory[];
-  onSelect: (characterName: string) => void;
   selectedCharacter: string;
-  selectedItem: string;
 };
 
-export const SelectItem = ({
-  data,
-  onSelect,
-  selectedCharacter,
-  selectedItem,
-}: SelectItemType) => {
+export const SelectItem = ({ data, selectedCharacter }: SelectItemType) => {
+  const [selectedItem, setSelectedItem] = useState('');
+
+  const handleItemSelect = (e: SelectChangeEvent) => {
+    setSelectedItem(e.target.value);
+  };
+
   const characterItems = [
     ...new Set(
       data
@@ -28,22 +30,14 @@ export const SelectItem = ({
       item.target_item === selectedItem
   );
 
-  const handleItemChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onSelect(e.target.value);
-  };
-
   return (
     <>
-      <div>
-        <select onChange={handleItemChange}>
-          <option value="">아이템</option>
-          {characterItems.map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
-      </div>
+      <SelectUI
+        data={characterItems}
+        label="아이템"
+        value={selectedItem}
+        handleChange={handleItemSelect}
+      />
 
       {selectedItems.length !== 0 && (
         <h3>

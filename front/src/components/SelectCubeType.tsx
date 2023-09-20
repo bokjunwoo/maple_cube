@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { CubeHistory } from '../api/api';
 import { SelectCubeGrade } from './SelectCubeGrade';
+import { CUBE_NAME } from '../constants/cubeGuide';
+import { RadioUI } from './ui/RadioUI';
 
 type SelectCubeTypeType = {
   data: CubeHistory[];
@@ -11,11 +13,10 @@ export const SelectCubeType = ({
   data,
   selectedCubeType,
 }: SelectCubeTypeType) => {
-  console.log(data);
   const [selectedCubeGrade, setSelectedCubeGrade] = useState('');
 
-  const handleCubeGradeSelect = (cubeTypeName: string) => {
-    setSelectedCubeGrade(cubeTypeName);
+  const handleCubeGradeSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedCubeGrade(e.target.value);
   };
 
   const optionGrade = [
@@ -32,6 +33,7 @@ export const SelectCubeType = ({
   ];
 
   const gradeCounts: { [key: string]: number } = {};
+
   data.forEach((item) => {
     const grade =
       (item.after_potential_options.length === 0 &&
@@ -43,35 +45,23 @@ export const SelectCubeType = ({
     }
   });
 
-  console.log(gradeCounts);
-
   const potentialName =
-    selectedCubeType === '수상한 에디셔널 큐브' ||
-    selectedCubeType === '에디셔널 큐브' ||
-    selectedCubeType === '화이트 에디셔널 큐브'
+    selectedCubeType === CUBE_NAME.QUESTIONABLE_ADDITIONAL_CUBE ||
+    selectedCubeType === CUBE_NAME.ADDITIONAL_CUBE ||
+    selectedCubeType === CUBE_NAME.WHITE_ADDITIONAL_CUBE
       ? '에디셔널'
       : '잠재능력';
 
-  console.log('optionGrade', optionGrade);
-
   return (
     <>
-      <ul>
-        {optionGrade.map((optionGrade) => {
-          return (
-            <li
-              key={optionGrade}
-              onClick={() => handleCubeGradeSelect(optionGrade)}
-            >
-              {optionGrade} 등급 {potentialName} (
-              {gradeCounts[optionGrade] || 0}
-              개)
-            </li>
-          );
-        })}
-      </ul>
+      <RadioUI
+        data={optionGrade}
+        label="큐브 선택"
+        handleChange={handleCubeGradeSelect}
+        countKeyValue={gradeCounts}
+      />
 
-      {optionGrade && (
+      {selectedCubeGrade && (
         <SelectCubeGrade
           data={data}
           selectedCubeGrade={selectedCubeGrade}

@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import { CubeHistory } from '../api/api';
 import { SelectCubeType } from './SelectCubeType';
+import { RadioUI } from './ui/RadioUI';
 
 type ListCubeTypeNameType = {
   data: CubeHistory[];
 };
 
 export const ListCubeType = ({ data }: ListCubeTypeNameType) => {
-  const cubeTypeCounts: { [cubeTypeName: string]: number } = {};
-
   const [selectedCubeType, setSelectedCubeType] = useState('');
 
-  const handleCubeTypeSelect = (cubeTypeName: string) => {
-    setSelectedCubeType(cubeTypeName);
+  const handleCubeTypeSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedCubeType(e.target.value);
   };
 
+  const cubeTypeCounts: { [cubeTypeName: string]: number } = {};
   // 데이터를 반복하여 개수를 계산
   data.forEach((item) => {
     const cubeTypeName = item.cube_type;
@@ -33,17 +33,12 @@ export const ListCubeType = ({ data }: ListCubeTypeNameType) => {
 
   return (
     <>
-      <h3>사용한 큐브</h3>
-      <ul>
-        {cubeTypeNames.map((cubeTypeName) => (
-          <li
-            key={cubeTypeName}
-            onClick={() => handleCubeTypeSelect(cubeTypeName)}
-          >
-            {cubeTypeName} ({cubeTypeCounts[cubeTypeName] || 0}개)
-          </li>
-        ))}
-      </ul>
+      <RadioUI
+        data={cubeTypeNames}
+        label="사용한 큐브"
+        handleChange={handleCubeTypeSelect}
+        countKeyValue={cubeTypeCounts}
+      />
 
       {selectedCubeType && (
         <SelectCubeType
