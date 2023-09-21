@@ -28,3 +28,21 @@ export const isToday = (): string => {
     return currentDate.subtract(1, 'day').format('YYYY-MM-DD');
   }
 };
+
+export const calculateMaxDate = (endDateFormat: string, today: string) => {
+  if (endDateFormat <= today) {
+    return endDateFormat;
+  }
+  if (endDateFormat > today) {
+    return today;
+  }
+};
+
+export const calculateMinDate = (startDateFormat: string) => {
+  if (startDateFormat <= '2022-11-25') {
+    return '2022-11-25';
+  }
+  if (startDateFormat > '2022-11-25') {
+    return startDateFormat;
+  }
+};
