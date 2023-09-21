@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 const MINIMUM_SELECTION_DATE = '2022-11-25';
 
 export const isValidSelectionDate = (date: string): boolean => {
@@ -16,26 +18,13 @@ export const isValidDateFormat = (date: string): boolean => {
   return pattern.test(date) && !isNaN(Date.parse(date));
 };
 
-const formatDateToString = (date: Date, subtractDay = 0): string => {
-  const targetDate = new Date(date);
-  targetDate.setDate(targetDate.getDate() - subtractDay);
+export const isToday = (): string => {
+  const currentDate = dayjs();
+  const currentHour = currentDate.hour();
 
-  const year = targetDate.getFullYear();
-  const month = (targetDate.getMonth() + 1).toString().padStart(2, '0');
-  const day = targetDate.getDate().toString().padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-};
-
-export const isToday = (dateStr: string): boolean => {
-  const currentDate = new Date();
-  const currentHour = currentDate.getHours();
-  const todayStr = formatDateToString(currentDate);
-  const yesterdayStr = formatDateToString(currentDate, 1);
-
-  if (dateStr === yesterdayStr && currentHour < 5) {
-    return false;
+  if (currentHour < 5) {
+    return currentDate.subtract(2, 'day').format('YYYY-MM-DD');
+  } else {
+    return currentDate.subtract(1, 'day').format('YYYY-MM-DD');
   }
-
-  return todayStr > dateStr;
 };
