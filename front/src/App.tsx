@@ -4,12 +4,16 @@ import { CubeHistoryResponseDTO } from './api/api';
 import { ApiRequestButton } from './components/ApiRequestButton';
 import { SelectCharacter } from './components/SelectCharacter';
 import { Dayjs } from 'dayjs';
-import { Container, Grid } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
+import { HeaderUI } from './components/ui/HeaderUI';
+import { KeyInput } from './components/KeyInput';
 
 const App = () => {
   const [data, setData] = useState<CubeHistoryResponseDTO>();
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
+  const [apiKey, setApiKey] = useState('');
+  const [progress, setProgress] = useState(0);
 
   const handleStartDateChange = (newValue: Dayjs | null) => {
     setStartDate(newValue);
@@ -19,26 +23,43 @@ const App = () => {
     setEndDate(newValue);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setApiKey(e.target.value);
+  };
+
   return (
-    <Container maxWidth="md">
-      <DateRangePicker
-        startDate={startDate}
-        endDate={endDate}
-        handleStartDateChange={handleStartDateChange}
-        handleEndDateChange={handleEndDateChange}
-      />
+    <>
+      <HeaderUI />
+      <Container maxWidth="sm">
+        <Typography variant="h5">데이터 입력</Typography>
 
-      <ApiRequestButton
-        setData={setData}
-        startDate={startDate}
-        endDate={endDate}
-      />
+        <Box sx={{ backgroundColor: 'white', padding: 3 }}>
+          <KeyInput apiKey={apiKey} handleInputChange={handleInputChange} />
 
-      {data && data?.count !== 0 && (
-        <SelectCharacter data={data.cube_histories} />
-      )}
-      {data?.count === 0 && <p>해당요일에 사용한 큐브데이터는 없습니다.</p>}
-    </Container>
+          <DateRangePicker
+            startDate={startDate}
+            endDate={endDate}
+            handleStartDateChange={handleStartDateChange}
+            handleEndDateChange={handleEndDateChange}
+          />
+
+          <ApiRequestButton
+            setData={setData}
+            startDate={startDate}
+            endDate={endDate}
+            setProgress={setProgress}
+          />
+        </Box>
+
+        <progress value={progress} max="100" />
+        <p>{progress}%</p>
+
+        {data && data?.count !== 0 && (
+          <SelectCharacter data={data.cube_histories} />
+        )}
+        {data?.count === 0 && <p>해당요일에 사용한 큐브데이터는 없습니다.</p>}
+      </Container>
+    </>
   );
 };
 
