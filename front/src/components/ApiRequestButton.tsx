@@ -3,6 +3,7 @@ import { CubeHistoryResponseDTO, CubeHistory } from '../api/api';
 import { getMapleCubeUrl } from '../api/mapleAPI';
 import { ApiRequestButtonUI } from './ui/ApiRequestButtonUI';
 import { useState } from 'react';
+import { Box } from '@mui/material';
 
 type ApiRequestButtonType = {
   startDate: Dayjs | null;
@@ -10,12 +11,14 @@ type ApiRequestButtonType = {
   setData: React.Dispatch<
     React.SetStateAction<CubeHistoryResponseDTO | undefined>
   >;
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const ApiRequestButton = ({
   startDate,
   endDate,
   setData,
+  setProgress,
 }: ApiRequestButtonType) => {
   const key = process.env.REACT_APP_API_KEY || '';
 
@@ -42,6 +45,13 @@ export const ApiRequestButton = ({
         allCubeHistories.push(...response.cube_histories);
 
         currentDate = currentDate.add(1, 'day');
+
+        const progressPercentage = Math.floor(
+          (currentDate.diff(startDate, 'day') /
+            lastDate.diff(startDate, 'day')) *
+            100
+        );
+        setProgress(progressPercentage);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -53,9 +63,12 @@ export const ApiRequestButton = ({
       next_cursor: '',
     });
     setDisabled(false);
+    setProgress(0);
   };
 
   return (
-    <ApiRequestButtonUI fetchData={fetchAllDataInRange} disabled={disabled} />
+    <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
+      <ApiRequestButtonUI fetchData={fetchAllDataInRange} disabled={disabled} />
+    </Box>
   );
 };
