@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 type ApiRequestButtonUIType = {
   fetchData: () => Promise<void>;
@@ -10,8 +10,16 @@ export const ApiRequestButtonUI = ({
   disabled,
 }: ApiRequestButtonUIType) => {
   return (
-    <Button variant="outlined" onClick={fetchData} disabled={disabled}>
-      검색
+    <Button
+      variant="outlined"
+      onClick={fetchData}
+      disabled={disabled}
+      fullWidth
+      sx={{ height: '56px', borderRadius: 3 }}
+    >
+      <Typography variant="h6" sx={{ textAlign: 'center' }}>
+        검색
+      </Typography>
     </Button>
   );
 };
