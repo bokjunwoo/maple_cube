@@ -7,6 +7,7 @@ import dayjs, { Dayjs } from 'dayjs';
 type DateRangePickerType = {
   startDate: Dayjs | null;
   endDate: Dayjs | null;
+  disabled: boolean;
   handleStartDateChange: (newValue: Dayjs | null) => void;
   handleEndDateChange: (newValue: Dayjs | null) => void;
 };
@@ -14,6 +15,7 @@ type DateRangePickerType = {
 export const DateRangePicker = ({
   startDate,
   endDate,
+  disabled,
   handleEndDateChange,
   handleStartDateChange,
 }: DateRangePickerType) => {
@@ -92,6 +94,7 @@ export const DateRangePicker = ({
       maxDate={maxDate}
       minDate={minDate}
       today={today}
+      disabled={disabled}
     />
   );
 };
