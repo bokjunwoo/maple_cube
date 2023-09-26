@@ -57,7 +57,7 @@ export const DateRangePickerUI = ({
               }}
               minDate={dayjs('2022-11-25')}
               maxDate={dayjs(maxDate)}
-              sx={{ display: { xs: 'none', sm: 'flex' }, mr: 2, mt: 1, mb: 1 }}
+              sx={{ display: { xs: 'none', sm: 'flex' }, mr: 2 }}
               disabled={disabled}
             />
 
@@ -75,7 +75,7 @@ export const DateRangePickerUI = ({
               }}
               minDate={dayjs('2022-11-25')}
               maxDate={dayjs(maxDate)}
-              sx={{ display: { xs: 'flex', sm: 'none' }, mt: 1, mb: 1 }}
+              sx={{ display: { xs: 'flex', sm: 'none' }, mb: 1 }}
               disabled={disabled}
             />
           </Grid>
@@ -95,7 +95,7 @@ export const DateRangePickerUI = ({
               }}
               minDate={dayjs(minDate)}
               maxDate={dayjs(today)}
-              sx={{ display: { xs: 'none', sm: 'flex' }, ml: 2, mt: 1, mb: 1 }}
+              sx={{ display: { xs: 'none', sm: 'flex' }, ml: 2 }}
               disabled={disabled}
             />
 
@@ -113,7 +113,7 @@ export const DateRangePickerUI = ({
               }}
               minDate={dayjs(minDate)}
               maxDate={dayjs(today)}
-              sx={{ display: { xs: 'flex', sm: 'none' }, mt: 1, mb: 1 }}
+              sx={{ display: { xs: 'flex', sm: 'none' } }}
               disabled={disabled}
             />
           </Grid>
