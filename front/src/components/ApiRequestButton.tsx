@@ -2,30 +2,34 @@ import dayjs, { Dayjs } from 'dayjs';
 import { CubeHistoryResponseDTO, CubeHistory } from '../api/api';
 import { getMapleCubeUrl } from '../api/mapleAPI';
 import { ApiRequestButtonUI } from './ui/ApiRequestButtonUI';
-import { useState } from 'react';
 import { Box } from '@mui/material';
 
 type ApiRequestButtonType = {
   startDate: Dayjs | null;
   endDate: Dayjs | null;
+  disabled: boolean;
   setData: React.Dispatch<
     React.SetStateAction<CubeHistoryResponseDTO | undefined>
   >;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const ApiRequestButton = ({
   startDate,
   endDate,
+  disabled,
   setData,
   setProgress,
+  setDisabled,
+  setIsLoading,
 }: ApiRequestButtonType) => {
   const key = process.env.REACT_APP_API_KEY || '';
 
-  const [disabled, setDisabled] = useState(false);
-
   const fetchAllDataInRange = async (): Promise<void> => {
     setDisabled(true);
+    setIsLoading(true);
     let totalCount = 0;
     const allCubeHistories: CubeHistory[] = [];
 
@@ -63,11 +67,12 @@ export const ApiRequestButton = ({
       next_cursor: '',
     });
     setDisabled(false);
+    setIsLoading(false);
     setProgress(0);
   };
 
   return (
-    <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
+    <Box sx={{ display: 'flex' }}>
       <ApiRequestButtonUI fetchData={fetchAllDataInRange} disabled={disabled} />
     </Box>
   );
