@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material';
 import {
   DatePicker,
   DateValidationError,
@@ -11,6 +12,7 @@ import 'dayjs/locale/ko';
 type DateRangePickerUIType = {
   startDate: Dayjs | null;
   endDate: Dayjs | null;
+  disabled: boolean;
   handleStartDateChange: (newValue: Dayjs | null) => void;
   handleEndDateChange: (newValue: Dayjs | null) => void;
   handleStartOnError: (error: DateValidationError) => void;
@@ -25,6 +27,7 @@ type DateRangePickerUIType = {
 export const DateRangePickerUI = ({
   startDate,
   endDate,
+  disabled,
   handleStartDateChange,
   handleEndDateChange,
   handleStartOnError,
@@ -38,36 +41,83 @@ export const DateRangePickerUI = ({
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
       <DemoContainer components={['DatePicker']}>
-        <DatePicker
-          label="시작 날짜"
-          format="YYYY / MM / DD"
-          value={startDate}
-          onChange={handleStartDateChange}
-          views={['year', 'month', 'day']}
-          onError={handleStartOnError}
-          slotProps={{
-            textField: {
-              helperText: startErrorMessage,
-            },
-          }}
-          minDate={dayjs('2022-11-25')}
-          maxDate={dayjs(maxDate)}
-        />
-        <DatePicker
-          label="종료 날짜"
-          format="YYYY / MM / DD"
-          value={endDate}
-          onChange={handleEndDateChange}
-          views={['year', 'month', 'day']}
-          onError={handleEndOnError}
-          slotProps={{
-            textField: {
-              helperText: endErrorMessage,
-            },
-          }}
-          minDate={dayjs(minDate)}
-          maxDate={dayjs(today)}
-        />
+        <Grid container>
+          <Grid item xs={12} sm={6}>
+            <DatePicker
+              label="시작 날짜"
+              format="YYYY / MM / DD"
+              value={startDate}
+              onChange={handleStartDateChange}
+              views={['year', 'month', 'day']}
+              onError={handleStartOnError}
+              slotProps={{
+                textField: {
+                  helperText: startErrorMessage,
+                },
+              }}
+              minDate={dayjs('2022-11-25')}
+              maxDate={dayjs(maxDate)}
+              sx={{ display: { xs: 'none', sm: 'flex' }, mr: 2, mt: 1, mb: 1 }}
+              disabled={disabled}
+            />
+
+            <DatePicker
+              label="시작 날짜"
+              format="YYYY / MM / DD"
+              value={startDate}
+              onChange={handleStartDateChange}
+              views={['year', 'month', 'day']}
+              onError={handleStartOnError}
+              slotProps={{
+                textField: {
+                  helperText: startErrorMessage,
+                },
+              }}
+              minDate={dayjs('2022-11-25')}
+              maxDate={dayjs(maxDate)}
+              sx={{ display: { xs: 'flex', sm: 'none' }, mt: 1, mb: 1 }}
+              disabled={disabled}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <DatePicker
+              label="종료 날짜"
+              format="YYYY / MM / DD"
+              value={endDate}
+              onChange={handleEndDateChange}
+              views={['year', 'month', 'day']}
+              onError={handleEndOnError}
+              slotProps={{
+                textField: {
+                  helperText: endErrorMessage,
+                },
+              }}
+              minDate={dayjs(minDate)}
+              maxDate={dayjs(today)}
+              sx={{ display: { xs: 'none', sm: 'flex' }, ml: 2, mt: 1, mb: 1 }}
+              disabled={disabled}
+            />
+
+            <DatePicker
+              label="종료 날짜"
+              format="YYYY / MM / DD"
+              value={endDate}
+              onChange={handleEndDateChange}
+              views={['year', 'month', 'day']}
+              onError={handleEndOnError}
+              slotProps={{
+                textField: {
+                  helperText: endErrorMessage,
+                },
+              }}
+              minDate={dayjs(minDate)}
+              maxDate={dayjs(today)}
+              sx={{ display: { xs: 'flex', sm: 'none' }, mt: 1, mb: 1 }}
+              disabled={disabled}
+            />
+          </Grid>
+        </Grid>
       </DemoContainer>
     </LocalizationProvider>
   );
