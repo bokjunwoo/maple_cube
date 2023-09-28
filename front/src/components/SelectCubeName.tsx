@@ -1,18 +1,29 @@
-import { useState } from 'react';
 import { CubeHistory } from '../api/api';
 import { SelectCubeType } from './SelectCubeType';
 import { RadioUI } from './ui/RadioUI';
 import { cubeTypeNameInfo } from '../constants/cubeGuide';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  currentPageState,
+  selectedCubeGradeState,
+  selectedCubeNameState,
+} from '../atom/cubeDataState';
 
 type ListCubeTypeNameType = {
   data: CubeHistory[];
 };
 
-export const ListCubeType = ({ data }: ListCubeTypeNameType) => {
-  const [selectedCubeType, setSelectedCubeType] = useState('');
+export const SelectCubeName = ({ data }: ListCubeTypeNameType) => {
+  const [selectedCubeName, setSelectedCubeName] = useRecoilState(
+    selectedCubeNameState
+  );
+  const setSelectedCubeGrade = useSetRecoilState(selectedCubeGradeState);
+  const setCurrentPage = useSetRecoilState(currentPageState);
 
   const handleCubeTypeSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedCubeType(e.target.value);
+    setSelectedCubeName(e.target.value);
+    setSelectedCubeGrade('');
+    setCurrentPage(1);
   };
 
   const cubeTypeCounts: { [cubeTypeName: string]: number } = {};
@@ -28,8 +39,8 @@ export const ListCubeType = ({ data }: ListCubeTypeNameType) => {
 
   const cubeTypeNames = [...new Set(data.map((item) => item.cube_type))];
 
-  const selectedCubeTypes = data.filter(
-    (item) => item.cube_type === selectedCubeType
+  const selectedCubeNames = data.filter(
+    (item) => item.cube_type === selectedCubeName
   );
 
   return (
@@ -40,12 +51,13 @@ export const ListCubeType = ({ data }: ListCubeTypeNameType) => {
         handleChange={handleCubeTypeSelect}
         countKeyValue={cubeTypeCounts}
         info={cubeTypeNameInfo}
+        value={selectedCubeName}
       />
 
-      {selectedCubeType && (
+      {selectedCubeName && (
         <SelectCubeType
-          data={selectedCubeTypes}
-          selectedCubeType={selectedCubeType}
+          data={selectedCubeNames}
+          selectedCubeName={selectedCubeName}
         />
       )}
     </>
