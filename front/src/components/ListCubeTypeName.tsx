@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CubeHistory } from '../api/api';
 import { SelectCubeType } from './SelectCubeType';
 import { RadioUI } from './ui/RadioUI';
+import { cubeTypeNameInfo } from '../constants/cubeGuide';
 
 type ListCubeTypeNameType = {
   data: CubeHistory[];
@@ -38,6 +39,7 @@ export const ListCubeType = ({ data }: ListCubeTypeNameType) => {
         label="사용한 큐브"
         handleChange={handleCubeTypeSelect}
         countKeyValue={cubeTypeCounts}
+        info={cubeTypeNameInfo}
       />
 
       {selectedCubeType && (

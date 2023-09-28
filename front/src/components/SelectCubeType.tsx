@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CubeHistory } from '../api/api';
 import { SelectCubeGrade } from './SelectCubeGrade';
-import { CUBE_NAME } from '../constants/cubeGuide';
+import { CUBE_NAME, cubeTypeInfo } from '../constants/cubeGuide';
 import { RadioUI } from './ui/RadioUI';
 
 type SelectCubeTypeType = {
@@ -59,6 +59,7 @@ export const SelectCubeType = ({
         label="큐브 선택"
         handleChange={handleCubeGradeSelect}
         countKeyValue={gradeCounts}
+        info={cubeTypeInfo}
       />
 
       {selectedCubeGrade && (
