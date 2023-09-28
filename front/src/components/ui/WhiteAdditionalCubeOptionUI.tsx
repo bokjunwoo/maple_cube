@@ -1,4 +1,6 @@
+import { Typography, Box, Avatar } from '@mui/material';
 import { CubeHistory } from '../../api/api';
+import { cubeTypeInfo } from '../../constants/cubeGuide';
 
 type WhiteAdditionalCubeOptionUIType = {
   data: CubeHistory;
@@ -9,14 +11,57 @@ export const WhiteAdditionalCubeOptionUI = ({
 }: WhiteAdditionalCubeOptionUIType) => {
   return (
     <div>
-      <h3>before</h3>
+      <Typography variant="h5">before</Typography>
       {data.before_additional_potential_options.map((option, i) => {
-        return <p key={i}>{option.value}</p>;
+        return (
+          <Box
+            key={i}
+            sx={{
+              display: 'flex',
+            }}
+          >
+            <Avatar
+              variant="rounded"
+              sx={{
+                width: 14,
+                height: 14,
+                mr: 0.5,
+                mt: 0.6,
+                bgcolor:
+                  cubeTypeInfo[option.grade as string].color || 'darkblue',
+                fontSize: '11px',
+              }}
+            >
+              {cubeTypeInfo[option.grade as string].name}
+            </Avatar>
+
+            <Typography variant="body1">{option.value}</Typography>
+          </Box>
+        );
       })}
       <hr />
-      <h3>after</h3>
+      <Typography variant="h5">after</Typography>
       {data.after_additional_potential_options.map((option, i) => {
-        return <p key={i}>{option.value}</p>;
+        return (
+          <Box key={i} sx={{ display: 'flex' }}>
+            <Avatar
+              variant="rounded"
+              sx={{
+                width: 14,
+                height: 14,
+                mr: 0.5,
+                mt: 0.6,
+                bgcolor:
+                  cubeTypeInfo[option.grade as string].color || 'darkblue',
+                fontSize: '11px',
+              }}
+            >
+              {cubeTypeInfo[option.grade as string].name}
+            </Avatar>
+
+            <Typography variant="body1">{option.value}</Typography>
+          </Box>
+        );
       })}
     </div>
   );
