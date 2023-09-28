@@ -1,12 +1,15 @@
 import { Box } from '@mui/material';
 import { InputUI } from './ui/InputUI';
+import { useRecoilState } from 'recoil';
+import { apiKeyState } from '../atom/cubeDataState';
 
-type KeyInputType = {
-  apiKey: string;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
+export const KeyInput = () => {
+  const [apiKey, setApiKey] = useRecoilState(apiKeyState);
 
-export const KeyInput = ({ apiKey, handleInputChange }: KeyInputType) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setApiKey(e.target.value);
+  };
+
   return (
     <Box sx={{ pt: 1, pb: 1 }}>
       <InputUI

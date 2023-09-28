@@ -10,10 +10,10 @@ import {
 } from '../atom/cubeDataState';
 
 type ListCubeTypeNameType = {
-  data: CubeHistory[];
+  filterdata: CubeHistory[];
 };
 
-export const SelectCubeName = ({ data }: ListCubeTypeNameType) => {
+export const SelectCubeName = ({ filterdata }: ListCubeTypeNameType) => {
   const [selectedCubeName, setSelectedCubeName] = useRecoilState(
     selectedCubeNameState
   );
@@ -28,7 +28,7 @@ export const SelectCubeName = ({ data }: ListCubeTypeNameType) => {
 
   const cubeTypeCounts: { [cubeTypeName: string]: number } = {};
   // 데이터를 반복하여 개수를 계산
-  data.forEach((item) => {
+  filterdata.forEach((item) => {
     const cubeTypeName = item.cube_type;
     if (cubeTypeCounts[cubeTypeName]) {
       cubeTypeCounts[cubeTypeName]++;
@@ -37,9 +37,9 @@ export const SelectCubeName = ({ data }: ListCubeTypeNameType) => {
     }
   });
 
-  const cubeTypeNames = [...new Set(data.map((item) => item.cube_type))];
+  const cubeTypeNames = [...new Set(filterdata.map((item) => item.cube_type))];
 
-  const selectedCubeNames = data.filter(
+  const selectedCubeNames = filterdata.filter(
     (item) => item.cube_type === selectedCubeName
   );
 
@@ -56,7 +56,7 @@ export const SelectCubeName = ({ data }: ListCubeTypeNameType) => {
 
       {selectedCubeName && (
         <SelectCubeType
-          data={selectedCubeNames}
+          filterdata={selectedCubeNames}
           selectedCubeName={selectedCubeName}
         />
       )}

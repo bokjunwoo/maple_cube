@@ -1,30 +1,42 @@
-import dayjs, { Dayjs } from 'dayjs';
-import { CubeHistoryResponseDTO, CubeHistory } from '../api/api';
+import dayjs from 'dayjs';
+import { CubeHistory } from '../api/api';
 import { getMapleCubeUrl } from '../api/mapleAPI';
 import { ApiRequestButtonUI } from './ui/ApiRequestButtonUI';
 import { Box } from '@mui/material';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  dataState,
+  disabledState,
+  endDateState,
+  endErrorState,
+  isLoadingState,
+  progressState,
+  startDateState,
+  startErrorState,
+} from '../atom/cubeDataState';
 
-type ApiRequestButtonType = {
-  startDate: Dayjs | null;
-  endDate: Dayjs | null;
-  disabled: boolean;
-  setData: React.Dispatch<
-    React.SetStateAction<CubeHistoryResponseDTO | undefined>
-  >;
-  setProgress: React.Dispatch<React.SetStateAction<number>>;
-  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-};
+export const ApiRequestButton = () => {
+  const setDataState = useSetRecoilState(dataState);
+  const setIsLoading = useSetRecoilState(isLoadingState);
+  const setProgress = useSetRecoilState(progressState);
+  const startDate = useRecoilValue(startDateState);
+  const endDate = useRecoilValue(endDateState);
+  const startError = useRecoilValue(startErrorState);
+  const endError = useRecoilValue(endErrorState);
+  const [disabled, setDisabled] = useRecoilState(disabledState);
 
-export const ApiRequestButton = ({
-  startDate,
-  endDate,
-  disabled,
-  setData,
-  setProgress,
-  setDisabled,
-  setIsLoading,
-}: ApiRequestButtonType) => {
+  const isStartDateValid = startDate === null;
+  const isEndDateValid = endDate === null;
+  const isStartErrorDateValid = startError !== null;
+  const isEndErrorDateValid = endError !== null;
+
+  const isDisabled =
+    isStartErrorDateValid ||
+    isEndErrorDateValid ||
+    isStartDateValid ||
+    isEndDateValid ||
+    disabled;
+
   const key = process.env.REACT_APP_API_KEY || '';
 
   const fetchAllDataInRange = async (): Promise<void> => {
@@ -61,11 +73,12 @@ export const ApiRequestButton = ({
       }
     }
 
-    setData({
+    setDataState({
       count: totalCount,
       cube_histories: allCubeHistories,
       next_cursor: '',
     });
+
     setDisabled(false);
     setIsLoading(false);
     setProgress(0);
@@ -73,7 +86,10 @@ export const ApiRequestButton = ({
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <ApiRequestButtonUI fetchData={fetchAllDataInRange} disabled={disabled} />
+      <ApiRequestButtonUI
+        fetchData={fetchAllDataInRange}
+        disabled={isDisabled}
+      />
     </Box>
   );
 };

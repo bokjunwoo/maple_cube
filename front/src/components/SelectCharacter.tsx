@@ -1,18 +1,35 @@
-import { useState } from 'react';
 import { CubeHistory } from '../api/api';
 import { SelectChangeEvent, Typography } from '@mui/material';
 import { SelectUI } from './ui/SelectUI';
 import { SelectItem } from './SelectItem';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  currentPageState,
+  selectedCharacterState,
+  selectedCubeGradeState,
+  selectedCubeNameState,
+  selectedItemState,
+} from '../atom/cubeDataState';
 
 type SelectCharacterType = {
   data: CubeHistory[];
 };
 
 export const SelectCharacter = ({ data }: SelectCharacterType) => {
-  const [selectedCharacter, setSelectedCharacter] = useState('');
+  const [selectedCharacter, setSelectedCharacter] = useRecoilState(
+    selectedCharacterState
+  );
+  const setSelectedItem = useSetRecoilState(selectedItemState);
+  const setSelectedNameType = useSetRecoilState(selectedCubeNameState);
+  const setSelectedCubeGrade = useSetRecoilState(selectedCubeGradeState);
+  const setCurrentPage = useSetRecoilState(currentPageState);
 
   const handleCharacterSelect = (e: SelectChangeEvent) => {
     setSelectedCharacter(e.target.value);
+    setSelectedItem('');
+    setSelectedNameType('');
+    setSelectedCubeGrade('');
+    setCurrentPage(1);
   };
 
   const characterNames = [...new Set(data.map((item) => item.character_name))];
@@ -24,7 +41,7 @@ export const SelectCharacter = ({ data }: SelectCharacterType) => {
   return (
     <>
       <SelectUI
-        data={characterNames}
+        filterdata={characterNames}
         label="캐릭터"
         value={selectedCharacter}
         handleChange={handleCharacterSelect}

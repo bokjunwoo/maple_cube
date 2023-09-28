@@ -1,27 +1,35 @@
-import { useState } from 'react';
 import { CubeHistory } from '../api/api';
 import { SelectCubeGrade } from './SelectCubeGrade';
 import { CUBE_NAME, cubeTypeInfo } from '../constants/cubeGuide';
 import { RadioUI } from './ui/RadioUI';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  currentPageState,
+  selectedCubeGradeState,
+} from '../atom/cubeDataState';
 
 type SelectCubeTypeType = {
-  data: CubeHistory[];
-  selectedCubeType: string;
+  filterdata: CubeHistory[];
+  selectedCubeName: string;
 };
 
 export const SelectCubeType = ({
-  data,
-  selectedCubeType,
+  filterdata,
+  selectedCubeName,
 }: SelectCubeTypeType) => {
-  const [selectedCubeGrade, setSelectedCubeGrade] = useState('');
+  const [selectedCubeGrade, setSelectedCubeGrade] = useRecoilState(
+    selectedCubeGradeState
+  );
+  const setCurrentPage = useSetRecoilState(currentPageState);
 
   const handleCubeGradeSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedCubeGrade(e.target.value);
+    setCurrentPage(1);
   };
 
   const optionGrade = [
     ...new Set(
-      data.map(
+      filterdata.map(
         (item) =>
           (item.after_potential_options.length === 0 &&
             item.additional_potential_option_grade) ||
@@ -34,7 +42,7 @@ export const SelectCubeType = ({
 
   const gradeCounts: { [key: string]: number } = {};
 
-  data.forEach((item) => {
+  filterdata.forEach((item) => {
     const grade =
       (item.after_potential_options.length === 0 &&
         item.additional_potential_option_grade) ||
@@ -46,9 +54,9 @@ export const SelectCubeType = ({
   });
 
   const potentialName =
-    selectedCubeType === CUBE_NAME.QUESTIONABLE_ADDITIONAL_CUBE ||
-    selectedCubeType === CUBE_NAME.ADDITIONAL_CUBE ||
-    selectedCubeType === CUBE_NAME.WHITE_ADDITIONAL_CUBE
+    selectedCubeName === CUBE_NAME.QUESTIONABLE_ADDITIONAL_CUBE ||
+    selectedCubeName === CUBE_NAME.ADDITIONAL_CUBE ||
+    selectedCubeName === CUBE_NAME.WHITE_ADDITIONAL_CUBE
       ? '에디셔널'
       : '잠재능력';
 
@@ -60,14 +68,15 @@ export const SelectCubeType = ({
         handleChange={handleCubeGradeSelect}
         countKeyValue={gradeCounts}
         info={cubeTypeInfo}
+        value={selectedCubeGrade}
       />
 
       {selectedCubeGrade && (
         <SelectCubeGrade
-          data={data}
+          filterdata={filterdata}
           selectedCubeGrade={selectedCubeGrade}
           potentialName={potentialName}
-          selectedCubeType={selectedCubeType}
+          selectedCubeName={selectedCubeName}
         />
       )}
     </>

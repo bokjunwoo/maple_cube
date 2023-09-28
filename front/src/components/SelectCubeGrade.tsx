@@ -2,28 +2,28 @@ import { CubeHistory } from '../api/api';
 import { AccordionUI } from './ui/AccordionUI';
 
 type SelectCubeGradeType = {
-  data: CubeHistory[];
+  filterdata: CubeHistory[];
   selectedCubeGrade: string;
   potentialName: string;
-  selectedCubeType: string;
+  selectedCubeName: string;
 };
 
 export const SelectCubeGrade = ({
-  data,
+  filterdata,
   selectedCubeGrade,
   potentialName,
-  selectedCubeType,
+  selectedCubeName,
 }: SelectCubeGradeType) => {
   const gradeName =
     potentialName === '에디셔널'
       ? 'additional_potential_option_grade'
       : 'potential_option_grade';
 
-  const selectedGrades = data.filter(
+  const selectedGrades = filterdata.filter(
     (item) => item[gradeName] === selectedCubeGrade
   );
 
   return (
-    <AccordionUI data={selectedGrades} selectedCubeType={selectedCubeType} />
+    <AccordionUI data={selectedGrades} selectedCubeName={selectedCubeName} />
   );
 };

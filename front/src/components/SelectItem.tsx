@@ -1,8 +1,14 @@
-import { useState } from 'react';
 import { CubeHistory } from '../api/api';
-import { ListCubeType } from './ListCubeTypeName';
+import { SelectCubeName } from './SelectCubeName';
 import { SelectChangeEvent, Typography } from '@mui/material';
 import { SelectUI } from './ui/SelectUI';
+import {
+  currentPageState,
+  selectedCubeGradeState,
+  selectedCubeNameState,
+  selectedItemState,
+} from '../atom/cubeDataState';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 type SelectItemType = {
   data: CubeHistory[];
@@ -10,10 +16,16 @@ type SelectItemType = {
 };
 
 export const SelectItem = ({ data, selectedCharacter }: SelectItemType) => {
-  const [selectedItem, setSelectedItem] = useState('');
+  const [selectedItem, setSelectedItem] = useRecoilState(selectedItemState);
+  const setSelectedCubeName = useSetRecoilState(selectedCubeNameState);
+  const setSelectedCubeGrade = useSetRecoilState(selectedCubeGradeState);
+  const setCurrentPage = useSetRecoilState(currentPageState);
 
   const handleItemSelect = (e: SelectChangeEvent) => {
     setSelectedItem(e.target.value);
+    setSelectedCubeName('');
+    setSelectedCubeGrade('');
+    setCurrentPage(1);
   };
 
   const characterItems = [
@@ -33,7 +45,7 @@ export const SelectItem = ({ data, selectedCharacter }: SelectItemType) => {
   return (
     <>
       <SelectUI
-        data={characterItems}
+        filterdata={characterItems}
         label="아이템"
         value={selectedItem}
         handleChange={handleItemSelect}
@@ -46,7 +58,7 @@ export const SelectItem = ({ data, selectedCharacter }: SelectItemType) => {
         </Typography>
       )}
 
-      {selectedItem && <ListCubeType data={selectedItems} />}
+      {selectedItem && <SelectCubeName filterdata={selectedItems} />}
     </>
   );
 };
