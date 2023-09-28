@@ -21,6 +21,7 @@ type RadioUIType = {
       image?: string;
     };
   };
+  value: string;
 };
 
 export const RadioUI = ({
@@ -29,6 +30,7 @@ export const RadioUI = ({
   handleChange,
   countKeyValue,
   info,
+  value,
 }: RadioUIType) => {
   return (
     <FormControl fullWidth>
@@ -44,6 +46,7 @@ export const RadioUI = ({
         aria-labelledby="controlled-radio-buttons-group"
         name="controlled-radio-buttons-group"
         onChange={handleChange}
+        value={value}
       >
         {data.map((item) => (
           <div key={item}>
