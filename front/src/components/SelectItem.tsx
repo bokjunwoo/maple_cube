@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CubeHistory } from '../api/api';
 import { ListCubeType } from './ListCubeTypeName';
-import { SelectChangeEvent } from '@mui/material';
+import { SelectChangeEvent, Typography } from '@mui/material';
 import { SelectUI } from './ui/SelectUI';
 
 type SelectItemType = {
@@ -40,9 +40,10 @@ export const SelectItem = ({ data, selectedCharacter }: SelectItemType) => {
       />
 
       {selectedItems.length !== 0 && (
-        <h3>
-          {selectedItem}의 큐브사용 개수는 {selectedItems.length}개 입니다.
-        </h3>
+        <Typography variant="h6" sx={{ mt: 2, mb: 2 }}>
+          <strong>{selectedItem}</strong>의 큐브사용 개수는{' '}
+          <strong>{selectedItems.length.toLocaleString()}</strong>개 입니다.
+        </Typography>
       )}
 
       {selectedItem && <ListCubeType data={selectedItems} />}

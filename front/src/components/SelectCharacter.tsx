@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CubeHistory } from '../api/api';
-import { SelectChangeEvent } from '@mui/material';
+import { SelectChangeEvent, Typography } from '@mui/material';
 import { SelectUI } from './ui/SelectUI';
 import { SelectItem } from './SelectItem';
 
@@ -31,10 +31,10 @@ export const SelectCharacter = ({ data }: SelectCharacterType) => {
       />
 
       {selectedNameCount !== 0 && (
-        <h3>
-          {selectedCharacter}님의 총 큐브사용 개수는 {selectedNameCount}개
-          입니다.
-        </h3>
+        <Typography variant="h6" sx={{ mt: 2, mb: 2 }}>
+          <strong>{selectedCharacter}</strong>님의 총 큐브사용 개수는{' '}
+          <strong>{selectedNameCount.toLocaleString()}</strong>개 입니다.
+        </Typography>
       )}
 
       {selectedCharacter && (
