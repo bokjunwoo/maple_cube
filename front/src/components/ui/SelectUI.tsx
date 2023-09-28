@@ -7,14 +7,14 @@ import {
 } from '@mui/material';
 
 type SelectUIType = {
-  data: string[];
+  filterdata: string[];
   label: string;
   value: string;
   handleChange: (e: SelectChangeEvent) => void;
 };
 
 export const SelectUI = ({
-  data,
+  filterdata,
   label,
   value,
   handleChange,
@@ -29,7 +29,7 @@ export const SelectUI = ({
         label={label}
         onChange={handleChange}
       >
-        {data.map((name) => {
+        {filterdata.map((name) => {
           return (
             <MenuItem value={name} key={name}>
               {name}
