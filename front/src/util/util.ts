@@ -30,6 +30,9 @@ export const isToday = (): string => {
 };
 
 export const calculateMaxDate = (endDateFormat: string, today: string) => {
+  if (endDateFormat < '2022-11-25') {
+    return today;
+  }
   if (endDateFormat <= today) {
     return endDateFormat;
   }
