@@ -3,7 +3,12 @@ import { CustomButtonUI } from './ui/CustomButtonUI';
 
 export const IssuanceLinkButton = () => {
   return (
-    <Link href="#" target="_blank" underline="none" sx={{ display: 'flex' }}>
+    <Link
+      href="https://developers.nexon.com/Maplestory/apiList"
+      target="_blank"
+      underline="none"
+      sx={{ display: 'flex' }}
+    >
       <CustomButtonUI
         width="100%"
         height="56px"
@@ -11,6 +16,7 @@ export const IssuanceLinkButton = () => {
         bgColor="#FFCCCC"
         color="black"
         variant="h6"
+        hoverBorder="2px solid #ff8a8a"
       />
     </Link>
   );

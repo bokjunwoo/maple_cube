@@ -26,9 +26,10 @@ export const IssuanceDialogButton = () => {
           width="100%"
           height="56px"
           text="API키 발급 방법"
-          bgColor="#FFEECC"
+          bgColor="#ffeecc"
           color="black"
           variant="h6"
+          hoverBorder="2px solid #fcbc3d"
         />
       </Box>
 

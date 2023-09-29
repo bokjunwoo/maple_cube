@@ -8,6 +8,7 @@ type CustomButtonUIType = {
   bgColor: string;
   color: string;
   variant: Variant | 'inherit';
+  hoverBorder: string;
 };
 
 export const CustomButtonUI = ({
@@ -17,6 +18,7 @@ export const CustomButtonUI = ({
   bgColor,
   color,
   variant,
+  hoverBorder,
 }: CustomButtonUIType) => {
   return (
     <Box
@@ -26,11 +28,21 @@ export const CustomButtonUI = ({
         backgroundColor: bgColor,
         borderRadius: 3,
         cursor: 'pointer',
+        boxSizing: 'border-box',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        '&:hover': {
+          border: hoverBorder,
+        },
       }}
     >
       <Typography
         variant={variant}
-        sx={{ textAlign: 'center', lineHeight: height, color }}
+        sx={{
+          color,
+          fontWeight: 500,
+        }}
       >
         {text}
       </Typography>
