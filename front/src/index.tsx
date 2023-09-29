@@ -4,12 +4,16 @@ import App from './App';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { RecoilRoot } from 'recoil';
+import './style/index.css';
 
 const theme = createTheme({
   palette: {
     background: {
       default: '#F2F2F2', // 원하는 배경색으로 변경
     },
+  },
+  typography: {
+    fontFamily: 'Noto Sans KR',
   },
 });
 
