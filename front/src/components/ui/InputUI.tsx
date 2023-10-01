@@ -5,6 +5,8 @@ type InputUIType = {
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   fullWidth: boolean;
   label: string;
+  error: boolean;
+  helperText: string;
 };
 
 export const InputUI = ({
@@ -12,10 +14,14 @@ export const InputUI = ({
   handleInputChange,
   fullWidth,
   label,
+  error,
+  helperText,
 }: InputUIType) => {
   return (
     <TextField
       type="text"
+      error={error}
+      helperText={helperText}
       fullWidth={fullWidth}
       label={label}
       value={value}
