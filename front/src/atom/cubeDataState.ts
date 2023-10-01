@@ -6,7 +6,7 @@ import { DateValidationError } from '@mui/x-date-pickers';
 export const dataState = atom<CubeHistoryResponseDTO>({
   key: 'dataState',
   default: {
-    count: 0,
+    count: undefined,
     cube_histories: [],
     next_cursor: '',
   },
