@@ -76,3 +76,13 @@ export const currentPageState = atom({
   key: 'currentPage',
   default: 1,
 });
+
+export const isInputErrorState = atom({
+  key: 'isInputError',
+  default: false,
+});
+
+export const inputErrorMessageState = atom({
+  key: 'inputErrorMessage',
+  default: '',
+});
