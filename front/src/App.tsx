@@ -1,64 +1,104 @@
-import { useState } from 'react';
 import { DateRangePicker } from './components/DateRangePicker';
-import { CubeHistoryResponseDTO } from './api/api';
 import { ApiRequestButton } from './components/ApiRequestButton';
 import { SelectCharacter } from './components/SelectCharacter';
-import { Dayjs } from 'dayjs';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, Typography, useTheme } from '@mui/material';
 import { HeaderUI } from './components/ui/HeaderUI';
 import { KeyInput } from './components/KeyInput';
+import { Instructions } from './components/Instructions';
+import { IssuanceLinkButton } from './components/IssuanceLinkButton';
+import { IssuanceDialogButton } from './components/IssuanceDialogButton';
+import { LoadingBar } from './components/LoadingBar';
+import { useRecoilValue } from 'recoil';
+import {
+  dataState,
+  endDateState,
+  isLoadingState,
+  progressState,
+  startDateState,
+} from './atom/cubeDataState';
+import { Footer } from './components/ui/Footer';
+import { NoResultsPageUI } from './components/ui/NoResultsPageUI';
 
 const App = () => {
-  const [data, setData] = useState<CubeHistoryResponseDTO>();
-  const [startDate, setStartDate] = useState<Dayjs | null>(null);
-  const [endDate, setEndDate] = useState<Dayjs | null>(null);
-  const [apiKey, setApiKey] = useState('');
-  const [progress, setProgress] = useState(0);
+  const theme = useTheme();
 
-  const handleStartDateChange = (newValue: Dayjs | null) => {
-    setStartDate(newValue);
-  };
+  const data = useRecoilValue(dataState);
+  const progress = useRecoilValue(progressState);
+  const isLoading = useRecoilValue(isLoadingState);
+  const startDate = useRecoilValue(startDateState);
+  const endDate = useRecoilValue(endDateState);
 
-  const handleEndDateChange = (newValue: Dayjs | null) => {
-    setEndDate(newValue);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setApiKey(e.target.value);
-  };
+  const startDateFormat = startDate?.format('YYYY-MM-DD');
+  const endDateFormat = endDate?.format('YYYY-MM-DD');
 
   return (
     <>
       <HeaderUI />
-      <Container maxWidth="sm">
-        <Typography variant="h5">데이터 입력</Typography>
+      <Container
+        maxWidth="sm"
+        sx={{
+          [theme.breakpoints.up('xs')]: {
+            mt: 2,
+          },
+          [theme.breakpoints.up('sm')]: {
+            mt: 5,
+          },
+        }}
+      >
+        {data.count === undefined && (
+          <Box>
+            <Box sx={{ backgroundColor: 'white', padding: 3 }}>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                  Nexon Developers의 API키를 입력해주세요.
+                </Typography>
+                <KeyInput />
+              </Box>
 
-        <Box sx={{ backgroundColor: 'white', padding: 3 }}>
-          <KeyInput apiKey={apiKey} handleInputChange={handleInputChange} />
+              <Box sx={{ mb: 4 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                  검색하고 싶은 날짜를 설정해주세요.
+                </Typography>
+                <DateRangePicker />
+              </Box>
 
-          <DateRangePicker
-            startDate={startDate}
-            endDate={endDate}
-            handleStartDateChange={handleStartDateChange}
-            handleEndDateChange={handleEndDateChange}
-          />
+              <Box sx={{ mb: 5 }}>
+                <ApiRequestButton />
+              </Box>
 
-          <ApiRequestButton
-            setData={setData}
-            startDate={startDate}
-            endDate={endDate}
-            setProgress={setProgress}
-          />
-        </Box>
+              {isLoading && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 5 }}>
+                  <LoadingBar progress={progress} />
+                </Box>
+              )}
 
-        <progress value={progress} max="100" />
-        <p>{progress}%</p>
+              <Box sx={{ mb: 5 }}>
+                <Instructions />
+              </Box>
 
-        {data && data?.count !== 0 && (
-          <SelectCharacter data={data.cube_histories} />
+              <Box sx={{ mb: 3 }}>
+                <IssuanceDialogButton />
+              </Box>
+
+              <IssuanceLinkButton />
+            </Box>
+          </Box>
         )}
-        {data?.count === 0 && <p>해당요일에 사용한 큐브데이터는 없습니다.</p>}
+
+        {data.count !== 0 && data.cube_histories.length !== 0 && (
+          <Box sx={{ backgroundColor: 'white', padding: 3 }}>
+            <SelectCharacter data={data.cube_histories} />
+          </Box>
+        )}
+
+        {data.count === 0 && data.cube_histories.length === 0 && (
+          <NoResultsPageUI
+            startDate={startDateFormat as string}
+            endDate={endDateFormat as string}
+          />
+        )}
       </Container>
+      <Footer />
     </>
   );
 };
