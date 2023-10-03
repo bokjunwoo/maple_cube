@@ -5,39 +5,46 @@ import { ApiRequestButtonUI } from './ui/ApiRequestButtonUI';
 import { Box } from '@mui/material';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
+  apiKeyState,
   dataState,
   disabledState,
   endDateState,
   endErrorState,
+  inputErrorMessageState,
+  isInputErrorState,
   isLoadingState,
   progressState,
   startDateState,
   startErrorState,
 } from '../atom/cubeDataState';
+import axios from 'axios';
 
 export const ApiRequestButton = () => {
   const setDataState = useSetRecoilState(dataState);
   const setIsLoading = useSetRecoilState(isLoadingState);
   const setProgress = useSetRecoilState(progressState);
+  const setInputErrorMessage = useSetRecoilState(inputErrorMessageState);
   const startDate = useRecoilValue(startDateState);
   const endDate = useRecoilValue(endDateState);
   const startError = useRecoilValue(startErrorState);
   const endError = useRecoilValue(endErrorState);
   const [disabled, setDisabled] = useRecoilState(disabledState);
+  const [apiKey, setApiKey] = useRecoilState(apiKeyState);
+  const [isInputError, setIsInputError] = useRecoilState(isInputErrorState);
 
   const isStartDateValid = startDate === null;
   const isEndDateValid = endDate === null;
   const isStartErrorDateValid = startError !== null;
   const isEndErrorDateValid = endError !== null;
 
-  const isDisabled =
+  const isButtonDisabled =
     isStartErrorDateValid ||
     isEndErrorDateValid ||
     isStartDateValid ||
     isEndDateValid ||
+    isInputError ||
+    apiKey.length === 0 ||
     disabled;
-
-  const key = process.env.REACT_APP_API_KEY || '';
 
   const fetchAllDataInRange = async (): Promise<void> => {
     setDisabled(true);
@@ -55,7 +62,7 @@ export const ApiRequestButton = () => {
       const dateString = currentDate.format('YYYY-MM-DD');
 
       try {
-        const response = await getMapleCubeUrl(dateString, key);
+        const response = await getMapleCubeUrl(dateString, apiKey);
 
         totalCount += response.count ? response.count : 0;
         allCubeHistories.push(...response.cube_histories);
@@ -69,7 +76,24 @@ export const ApiRequestButton = () => {
         );
         setProgress(progressPercentage);
       } catch (error) {
-        console.error('Error:', error);
+        if (axios.isAxiosError(error)) {
+          if (error.response?.data === 400) {
+            setIsInputError(true);
+            setInputErrorMessage(
+              '2022년 11월25일 이전 데이터의 검색은 불가능 합니다.'
+            );
+          }
+          if (error.response?.data === 401) {
+            setIsInputError(true);
+            setInputErrorMessage(
+              'Nexon Developers의 API키를 올바르게 입력해주세요.'
+            );
+          }
+          setDisabled(false);
+          setIsLoading(false);
+          setApiKey('');
+          return;
+        }
       }
     }
 
@@ -88,7 +112,7 @@ export const ApiRequestButton = () => {
     <Box sx={{ display: 'flex' }}>
       <ApiRequestButtonUI
         fetchData={fetchAllDataInRange}
-        disabled={isDisabled}
+        disabled={isButtonDisabled}
       />
     </Box>
   );
