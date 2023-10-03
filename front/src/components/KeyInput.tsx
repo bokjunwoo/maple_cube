@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { InputUI } from './ui/InputUI';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
   apiKeyState,
   inputErrorMessageState,
