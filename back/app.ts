@@ -38,14 +38,6 @@ app.get('/api/data', async (req, res) => {
       }
     );
 
-    if (response.status !== 200) {
-      // 중단하고 에러 응답을 보냅니다.
-      return res.status(400).json({
-        message: 'Bad Request',
-        status: 400,
-      });
-    }
-
     res.json(response.data);
   } catch (error) {
     console.error('Error:', error);
