@@ -12,6 +12,7 @@ export const Footer = () => {
       <Typography variant="body2">
         &copy; 2023 큐브데이터. All rights reserved.
       </Typography>
+      <Typography variant="body2">Data based on NEXON DEVELOPERS</Typography>
       <Typography variant="body2">
         큐브데이터 is not associated with NEXON Korea.
       </Typography>
