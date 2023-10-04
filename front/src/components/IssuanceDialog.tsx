@@ -3,9 +3,10 @@ import {
   DialogTitle,
   IconButton,
   DialogContent,
-  Typography,
   DialogActions,
   Button,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -15,13 +16,21 @@ type IssuanceDialogType = {
 };
 
 export const IssuanceDialog = ({ open, handleClose }: IssuanceDialogType) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <Dialog
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
       open={open}
+      fullScreen={fullScreen}
+      maxWidth="md"
     >
-      <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+      <DialogTitle
+        sx={{ m: 0, p: 2, fontSize: '18px' }}
+        id="customized-dialog-title"
+      >
         Nexon Developers API키 발급 방법
       </DialogTitle>
       <IconButton
@@ -35,12 +44,12 @@ export const IssuanceDialog = ({ open, handleClose }: IssuanceDialogType) => {
       >
         <CloseIcon />
       </IconButton>
-      <DialogContent dividers>
-        <Typography gutterBottom>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-          consectetur ac, vestibulum at eros.
-        </Typography>
+      <DialogContent dividers sx={{ p: 0 }}>
+        <img
+          src="./images/key_manual.png"
+          alt="키 발급 매뉴얼"
+          style={{ maxWidth: '100%' }}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>닫기</Button>
