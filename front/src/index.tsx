@@ -4,7 +4,6 @@ import App from './App';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { RecoilRoot } from 'recoil';
-import './style/index.css';
 
 const theme = createTheme({
   palette: {
