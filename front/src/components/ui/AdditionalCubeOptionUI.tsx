@@ -24,6 +24,7 @@ export const AdditionalCubeOptionUI = ({
                 bgcolor:
                   cubeTypeInfo[option.grade as string].color || 'darkblue',
                 fontSize: '11px',
+                pb: 0.2,
               }}
             >
               {cubeTypeInfo[option.grade as string].name}

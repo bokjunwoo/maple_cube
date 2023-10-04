@@ -89,6 +89,8 @@ export const RadioUI = ({
                           mt: 0.4,
                           bgcolor: info[item].color,
                           fontSize: '16px',
+                          lineHeight: '18px',
+                          pb: 0.3,
                         }}
                       >
                         {info[item].name}
