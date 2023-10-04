@@ -11,7 +11,7 @@ export const HeaderUI = () => {
             href="/"
             sx={{
               fontWeight: 900,
-              color: '#3EC1D3',
+              color: '#3F72AF',
               textDecoration: 'none',
             }}
           >
