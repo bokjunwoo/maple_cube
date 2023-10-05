@@ -54,7 +54,7 @@ export const IssuanceDialog = ({ open, handleClose }: IssuanceDialogType) => {
         <CloseIcon />
       </IconButton>
       <DialogContent dividers sx={{ p: 0 }}>
-        {!imageLoaded ? (
+        {!imageLoaded && (
           <Box
             sx={{
               height: fullScreen ? '100%' : '80vh',
@@ -65,16 +65,15 @@ export const IssuanceDialog = ({ open, handleClose }: IssuanceDialogType) => {
           >
             <CircularProgress />
           </Box>
-        ) : (
-          <img
-            src="./images/key_manual.png"
-            alt="키 발급 매뉴얼"
-            style={{
-              maxWidth: '100%',
-            }}
-            onLoad={handleImageLoad}
-          />
         )}
+        <img
+          src="./images/key_manual.png"
+          alt="키 발급 매뉴얼"
+          style={{
+            maxWidth: '100%',
+          }}
+          onLoad={handleImageLoad}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>닫기</Button>
