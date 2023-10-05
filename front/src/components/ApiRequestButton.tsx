@@ -62,7 +62,11 @@ export const ApiRequestButton = () => {
       const dateString = currentDate.format('YYYY-MM-DD');
 
       try {
-        const response = await getMapleCubeUrl(dateString, apiKey);
+        const response = await getMapleCubeUrl(
+          dateString,
+          apiKey,
+          lastDate.format('YYYY-MM-DD')
+        );
 
         totalCount += response.count ? response.count : 0;
         allCubeHistories.push(...response.cube_histories);
@@ -77,17 +81,20 @@ export const ApiRequestButton = () => {
         setProgress(progressPercentage);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          if (error.response?.data === 400) {
-            setIsInputError(true);
-            setInputErrorMessage(
-              '2022년 11월25일 이전 데이터의 검색은 불가능 합니다.'
-            );
-          }
-          if (error.response?.data === 401) {
-            setIsInputError(true);
-            setInputErrorMessage(
-              'Nexon Developers의 API키를 올바르게 입력해주세요.'
-            );
+          setIsInputError(true);
+          switch (error.response?.data) {
+            case 400:
+              setInputErrorMessage(
+                '2022년 11월25일 이전 데이터의 검색은 불가능 합니다.'
+              );
+              break;
+            case 401:
+              setInputErrorMessage(
+                'Nexon Developers의 API키를 올바르게 입력해주세요.'
+              );
+              break;
+            default:
+              alert('서버 요청에 오류가 생겼습니다. 다시 시도해주세요.');
           }
           setDisabled(false);
           setIsLoading(false);
