@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { RecoilRoot } from 'recoil';
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Routes,
+  Route,
+} from 'react-router-dom';
+import App from './App';
 
 const theme = createTheme({
   palette: {
@@ -25,7 +31,12 @@ root.render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <RecoilRoot>
-        <App />
+        <Router>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
       </RecoilRoot>
     </ThemeProvider>
   </React.StrictMode>
