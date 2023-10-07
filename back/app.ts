@@ -2,11 +2,12 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import axios from 'axios';
+import mongoClient from './mongo';
 dotenv.config();
 
-const PORT: number | string = process.env.PORT || 4000;
+const PORT = process.env.PORT;
 
-const app: express.Application = express();
+const app = express();
 
 /* cors */
 const corsOptionsDev: cors.CorsOptions = {
@@ -25,23 +26,38 @@ app.get('/', (req: Request, res: Response) => {
   res.status(200).send('maple_cube API');
 });
 
-app.get('/api/data', async (req, res) => {
+app.post('/api/data', async (req, res) => {
   try {
     const response = await axios.get(
       'https://public.api.nexon.com/openapi/maplestory/v1/cube-use-results',
       {
-        params: req.query,
+        params: req.body,
         withCredentials: true,
         headers: {
-          Authorization: req.query.key as string,
+          Authorization: req.body.key,
         },
       }
     );
 
+    if (response.status === 200 && req.body.date === req.body.lastDate) {
+      await mongoClient.connect();
+      const CubeDataDB = mongoClient.db('CubeData').collection('Count');
+      await CubeDataDB.updateOne(
+        { name: 'CubeDataRequestCount' },
+        { $inc: { count: +1 } }
+      );
+    }
+
     res.json(response.data);
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'An error occurred' });
+    if (axios.isAxiosError(error)) {
+      // 에러 형식을 명시적으로 체크하고 사용자 정의 처리 가능
+      console.error('Error:', error);
+      res.status(error.response?.status as number).json(error.response?.status);
+    } else {
+      console.error('Error:', error);
+      res.status(500).json(500);
+    }
   }
 });
 
