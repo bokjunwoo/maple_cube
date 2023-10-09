@@ -15,8 +15,17 @@ const corsOptionsDev: cors.CorsOptions = {
   credentials: true,
 };
 
+const corsOptionsProd = {
+  origin: ['https://cubedata.live'],
+  credentials: true,
+};
+
 if (process.env.NODE_ENV === 'development') {
   app.use(cors(corsOptionsDev));
+}
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(cors(corsOptionsProd));
 }
 
 app.use(express.json());
