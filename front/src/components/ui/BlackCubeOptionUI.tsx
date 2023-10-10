@@ -9,7 +9,7 @@ type BlackCubeOptionUIType = {
 export const BlackCubeOptionUI = ({ data }: BlackCubeOptionUIType) => {
   return (
     <div>
-      <Typography variant="h5">before</Typography>
+      <Typography variant="h6">BEFORE</Typography>
       {data.before_potential_options.map((option, i) => {
         return (
           <Box
@@ -39,7 +39,7 @@ export const BlackCubeOptionUI = ({ data }: BlackCubeOptionUIType) => {
         );
       })}
       <hr />
-      <Typography variant="h5">after</Typography>
+      <Typography variant="h6">AFTER</Typography>
       {data.after_potential_options.map((option, i) => {
         return (
           <Box key={i} sx={{ display: 'flex' }}>

@@ -11,7 +11,7 @@ export const WhiteAdditionalCubeOptionUI = ({
 }: WhiteAdditionalCubeOptionUIType) => {
   return (
     <div>
-      <Typography variant="h5">before</Typography>
+      <Typography variant="h6">BEFORE</Typography>
       {data.before_additional_potential_options.map((option, i) => {
         return (
           <Box
@@ -41,7 +41,7 @@ export const WhiteAdditionalCubeOptionUI = ({
         );
       })}
       <hr />
-      <Typography variant="h5">after</Typography>
+      <Typography variant="h6">AFTER</Typography>
       {data.after_additional_potential_options.map((option, i) => {
         return (
           <Box key={i} sx={{ display: 'flex' }}>
