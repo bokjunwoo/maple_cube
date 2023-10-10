@@ -41,7 +41,7 @@ export const SelectCubeGrade = ({
   const endIndex = startIndex + 20;
   const currentData = selectedGrades.slice(startIndex, endIndex);
 
-  const filterDataLength = filterdata.length;
+  const selectedGradesLength = selectedGrades.length;
 
   return (
     <>
@@ -49,11 +49,11 @@ export const SelectCubeGrade = ({
         data={currentData}
         selectedCubeName={selectedCubeName}
         startIndex={startIndex}
-        filterDataLength={filterDataLength}
+        filterDataLength={selectedGradesLength}
       />
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, mb: 1 }}>
         <PaginationUI
-          count={Math.ceil(filterdata.length / ITEMS_COUNT_PER_PAGE)}
+          count={Math.ceil(selectedGradesLength / ITEMS_COUNT_PER_PAGE)}
           onChange={handlePageChange}
           page={currentPage}
         />
