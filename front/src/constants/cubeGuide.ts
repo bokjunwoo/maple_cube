@@ -102,11 +102,11 @@ export const cubeTypeNameInfo: CubeTypeNameInfoType = {
     image: '/images/questionable_additional_cube.png',
   },
   '에디셔널 큐브': {
-    color: '#65C18C',
+    color: '#44cc00',
     image: '/images/additional_cube.png',
   },
   '화이트 에디셔널 큐브': {
-    color: '#65C18C',
+    color: '#44cc00',
     image: '/images/white_additional_cube.png',
   },
 };
