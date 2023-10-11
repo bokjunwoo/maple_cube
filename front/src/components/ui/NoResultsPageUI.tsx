@@ -39,7 +39,7 @@ export const NoResultsPageUI = ({
           text="다시 검색하러가기"
           bgColor="#D0E8F2"
           color="black"
-          variant="button"
+          variant="subtitle1"
           hoverBorder="2px solid #057cad"
         />
       </Link>
