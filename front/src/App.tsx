@@ -18,6 +18,7 @@ import {
 } from './atom/cubeDataState';
 import { Footer } from './components/ui/Footer';
 import { NoResultsPageUI } from './components/ui/NoResultsPageUI';
+import { UserGuideDialogButton } from './components/UserGuideDialogButton';
 
 const App = () => {
   const theme = useTheme();
@@ -77,10 +78,16 @@ const App = () => {
               </Box>
 
               <Box sx={{ mb: 3 }}>
+                <UserGuideDialogButton />
+              </Box>
+
+              <Box sx={{ mb: 3 }}>
                 <IssuanceDialogButton />
               </Box>
 
-              <IssuanceLinkButton />
+              <Box sx={{ mb: 0 }}>
+                <IssuanceLinkButton />
+              </Box>
             </Box>
           </Box>
         )}
