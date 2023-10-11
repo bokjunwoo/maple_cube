@@ -25,11 +25,11 @@ export const IssuanceDialogButton = () => {
         <CustomButtonUI
           width="100%"
           height="56px"
-          text="API키 발급 방법"
-          bgColor="#ffeecc"
+          text="API 키 발급 방법"
+          bgColor="#EDF1D6"
           color="black"
-          variant="h6"
-          hoverBorder="2px solid #fcbc3d"
+          variant="subtitle1"
+          hoverBorder="2px solid #819606"
         />
       </Box>
 
