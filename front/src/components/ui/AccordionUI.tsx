@@ -43,10 +43,32 @@ export const AccordionUI = ({
               expandIcon={<ExpandMoreIcon />}
               aria-controls={`panel-content${i + 1}`}
               id={`panel-content${i + 1}`}
+              sx={{
+                bgcolor: item.item_upgrade_result === '성공' ? '#ffffa6' : null,
+              }}
             >
-              <Typography variant="subtitle1">
-                큐브 옵션 {filterDataLength - (startIndex + i)}
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'end' }}>
+                <Typography variant="subtitle1" sx={{ mr: 0.5 }}>
+                  큐브 옵션 {filterDataLength - (startIndex + i)}
+                </Typography>
+                {item.item_upgrade_result === '성공' ? (
+                  <Typography variant="subtitle2" sx={{ mb: 0.25, mr: 0.2 }}>
+                    (등급업)
+                  </Typography>
+                ) : null}
+
+                {item.upgradeguarantee === true ? (
+                  <Typography variant="subtitle2" sx={{ mb: 0.25, mr: 0.2 }}>
+                    (천장 등급업)
+                  </Typography>
+                ) : null}
+
+                {item.miracle_time_flag === '이벤트 적용중' ? (
+                  <Typography variant="subtitle2" sx={{ mb: 0.25, mr: 0.2 }}>
+                    (미라클 타임)
+                  </Typography>
+                ) : null}
+              </Box>
             </AccordionSummary>
             <AccordionDetails>
               <div>
