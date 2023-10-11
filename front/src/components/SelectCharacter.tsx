@@ -1,5 +1,5 @@
 import { CubeHistory } from '../api/api';
-import { SelectChangeEvent, Typography } from '@mui/material';
+import { Box, Link, SelectChangeEvent, Typography } from '@mui/material';
 import { SelectUI } from './ui/SelectUI';
 import { SelectItem } from './SelectItem';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -10,6 +10,7 @@ import {
   selectedCubeNameState,
   selectedItemState,
 } from '../atom/cubeDataState';
+import { CustomButtonUI } from './ui/CustomButtonUI';
 
 type SelectCharacterType = {
   data: CubeHistory[];
@@ -57,6 +58,20 @@ export const SelectCharacter = ({ data }: SelectCharacterType) => {
       {selectedCharacter && (
         <SelectItem data={data} selectedCharacter={selectedCharacter} />
       )}
+
+      <Box sx={{ mt: 3 }}>
+        <Link sx={{ width: '100%' }} underline="none" href="/">
+          <CustomButtonUI
+            width="100%"
+            height="56px"
+            text="다시 검색하러가기"
+            bgColor="#D0E8F2"
+            color="black"
+            variant="subtitle1"
+            hoverBorder="2px solid #057cad"
+          />
+        </Link>
+      </Box>
     </>
   );
 };
