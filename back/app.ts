@@ -11,12 +11,12 @@ const app = express();
 
 /* cors */
 const corsOptionsDev: cors.CorsOptions = {
-  origin: ['http://localhost:3000'],
+  origin: 'http://localhost:3000',
   credentials: true,
 };
 
-const corsOptionsProd = {
-  origin: ['https://cubedata.live'],
+const corsOptionsProd: cors.CorsOptions = {
+  origin: [process.env.ORIGIN_URL || ''],
   credentials: true,
 };
 
@@ -37,22 +37,21 @@ app.get('/', (req: Request, res: Response) => {
 
 app.post('/api/data', async (req, res) => {
   try {
-    const response = await axios.get(
-      'https://public.api.nexon.com/openapi/maplestory/v1/cube-use-results',
-      {
-        params: req.body,
-        withCredentials: true,
-        headers: {
-          Authorization: req.body.key,
-        },
-      }
-    );
+    const response = await axios.get(process.env.MAPLE_URL || '', {
+      params: req.body,
+      withCredentials: true,
+      headers: {
+        Authorization: req.body.key,
+      },
+    });
 
     if (response.status === 200 && req.body.date === req.body.lastDate) {
       await mongoClient.connect();
-      const CubeDataDB = mongoClient.db('CubeData').collection('Count');
+      const CubeDataDB = mongoClient
+        .db(process.env.DB_NAME)
+        .collection(process.env.DB_COLLECTION || '');
       await CubeDataDB.updateOne(
-        { name: 'CubeDataRequestCount' },
+        { name: process.env.UPDATE_ONE_NAME },
         { $inc: { count: +1 } }
       );
     }
@@ -60,7 +59,6 @@ app.post('/api/data', async (req, res) => {
     res.json(response.data);
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      // 에러 형식을 명시적으로 체크하고 사용자 정의 처리 가능
       console.error('Error:', error);
       res.status(error.response?.status as number).json(error.response?.status);
     } else {
