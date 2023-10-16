@@ -7,7 +7,7 @@ export const getMapleCubeUrl = async (
   lastDate: string
 ): Promise<CubeHistoryResponseDTO> => {
   const response = await axios.post(
-    'http://localhost:4000/api/data',
+    'https://api.cubedata.live/api/data',
     {
       count: 1000,
       date: date,
