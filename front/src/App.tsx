@@ -29,8 +29,8 @@ const App = () => {
   const startDate = useRecoilValue(startDateState);
   const endDate = useRecoilValue(endDateState);
 
-  const startDateFormat = startDate?.format('YYYY-MM-DD');
-  const endDateFormat = endDate?.format('YYYY-MM-DD');
+  const startDateFormat = startDate?.format('YYYY년 MM월DD일');
+  const endDateFormat = endDate?.format('YYYY년 MM월DD일');
 
   return (
     <>
