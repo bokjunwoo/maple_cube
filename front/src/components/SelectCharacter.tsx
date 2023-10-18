@@ -1,5 +1,5 @@
 import { CubeHistory } from '../api/api';
-import { Box, Link, SelectChangeEvent, Typography } from '@mui/material';
+import { Box, SelectChangeEvent, Typography } from '@mui/material';
 import { SelectUI } from './ui/SelectUI';
 import { SelectItem } from './SelectItem';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -11,6 +11,8 @@ import {
   selectedItemState,
 } from '../atom/cubeDataState';
 import { CustomButtonUI } from './ui/CustomButtonUI';
+import { OneMoreQuestionDialog } from './OneMoreQuestionDialog';
+import { useState } from 'react';
 
 type SelectCharacterType = {
   data: CubeHistory[];
@@ -31,6 +33,12 @@ export const SelectCharacter = ({ data }: SelectCharacterType) => {
     setSelectedNameType('');
     setSelectedCubeGrade('');
     setCurrentPage(1);
+  };
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
   };
 
   const characterNames = [...new Set(data.map((item) => item.character_name))];
@@ -60,7 +68,7 @@ export const SelectCharacter = ({ data }: SelectCharacterType) => {
       )}
 
       <Box sx={{ mt: 3 }}>
-        <Link sx={{ width: '100%' }} underline="none" href="/">
+        <div onClick={handleClickOpen}>
           <CustomButtonUI
             width="100%"
             height="56px"
@@ -70,8 +78,10 @@ export const SelectCharacter = ({ data }: SelectCharacterType) => {
             variant="subtitle1"
             hoverBorder="2px solid #057cad"
           />
-        </Link>
+        </div>
       </Box>
+
+      <OneMoreQuestionDialog open={open} setOpen={setOpen} />
     </>
   );
 };
