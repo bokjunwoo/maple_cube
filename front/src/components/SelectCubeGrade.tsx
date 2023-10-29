@@ -2,9 +2,10 @@ import { useRecoilState } from 'recoil';
 import { CubeHistory } from '../api/api';
 import { AccordionUI } from './ui/AccordionUI';
 import { currentPageState } from '../atom/cubeDataState';
-import { Box } from '@mui/material';
-import { ITEMS_COUNT_PER_PAGE } from '../constants/units';
+import { Box, SelectChangeEvent } from '@mui/material';
 import { PaginationUI } from './ui/PaginationUI';
+import { useState } from 'react';
+import { PostListSelectUI } from './ui/PostListSelectUI';
 
 type SelectCubeGradeType = {
   filterdata: CubeHistory[];
@@ -20,6 +21,11 @@ export const SelectCubeGrade = ({
   selectedCubeName,
 }: SelectCubeGradeType) => {
   const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+  const [pageSize, setPageSize] = useState(20);
+
+  const handlePageSizeChange = (event: SelectChangeEvent) => {
+    setPageSize(parseInt(event.target.value, 10));
+  };
 
   const gradeName =
     potentialName === '에디셔널'
@@ -37,23 +43,26 @@ export const SelectCubeGrade = ({
     setCurrentPage(newPage);
   };
 
-  const startIndex = (currentPage - 1) * ITEMS_COUNT_PER_PAGE;
-  const endIndex = startIndex + 20;
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
   const currentData = selectedGrades.slice(startIndex, endIndex);
 
   const selectedGradesLength = selectedGrades.length;
 
   return (
     <>
+      <PostListSelectUI value={pageSize} handleChange={handlePageSizeChange} />
+
       <AccordionUI
         data={currentData}
         selectedCubeName={selectedCubeName}
         startIndex={startIndex}
         filterDataLength={selectedGradesLength}
       />
+
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, mb: 1 }}>
         <PaginationUI
-          count={Math.ceil(selectedGradesLength / ITEMS_COUNT_PER_PAGE)}
+          count={Math.ceil(selectedGradesLength / pageSize)}
           onChange={handlePageChange}
           page={currentPage}
         />
