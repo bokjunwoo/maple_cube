@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { CubeResultOptionDTO } from '../api/api';
 
 const MINIMUM_SELECTION_DATE = '2022-11-25';
 
@@ -48,4 +49,10 @@ export const calculateMinDate = (startDateFormat: string) => {
   if (startDateFormat > '2022-11-25') {
     return startDateFormat;
   }
+};
+
+export const flattenOptions = (options: CubeResultOptionDTO[]) => {
+  return options
+    .map((option) => `${option.value} (${option.grade})`)
+    .join(', ');
 };
