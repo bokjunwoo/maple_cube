@@ -1,11 +1,12 @@
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { CubeHistory } from '../api/api';
 import { AccordionUI } from './ui/AccordionUI';
-import { currentPageState } from '../atom/cubeDataState';
+import { currentPageState, dataState } from '../atom/cubeDataState';
 import { Box, SelectChangeEvent } from '@mui/material';
 import { PaginationUI } from './ui/PaginationUI';
 import { useState } from 'react';
 import { PostListSelectUI } from './ui/PostListSelectUI';
+import { CSVButton } from './CSVButton';
 
 type SelectCubeGradeType = {
   filterdata: CubeHistory[];
@@ -20,6 +21,8 @@ export const SelectCubeGrade = ({
   potentialName,
   selectedCubeName,
 }: SelectCubeGradeType) => {
+  const data = useRecoilValue(dataState);
+
   const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
   const [pageSize, setPageSize] = useState(20);
 
@@ -66,6 +69,10 @@ export const SelectCubeGrade = ({
           onChange={handlePageChange}
           page={currentPage}
         />
+      </Box>
+
+      <Box sx={{ mt: 3 }}>
+        <CSVButton data={data.cube_histories} />
       </Box>
     </>
   );
