@@ -6,7 +6,7 @@ import { Box, SelectChangeEvent } from '@mui/material';
 import { PaginationUI } from './ui/PaginationUI';
 import { useState } from 'react';
 import { PostListSelectUI } from './ui/PostListSelectUI';
-import { CSVButton } from './CSVButton';
+import { CSVAllDownloadButton } from './CSVAllDownloadButton';
 
 type SelectCubeGradeType = {
   filterdata: CubeHistory[];
@@ -72,7 +72,7 @@ export const SelectCubeGrade = ({
       </Box>
 
       <Box sx={{ mt: 3 }}>
-        <CSVButton data={data.cube_histories} />
+        <CSVAllDownloadButton data={data.cube_histories} />
       </Box>
     </>
   );

@@ -4,11 +4,11 @@ import { flattenOptions } from '../util/util';
 import { CustomButtonUI } from './ui/CustomButtonUI';
 import { Box } from '@mui/material';
 
-type CSVButtonType = {
+type CSVAllDownloadButtonType = {
   data: CubeHistory[];
 };
 
-export const CSVButton = ({ data }: CSVButtonType) => {
+export const CSVAllDownloadButton = ({ data }: CSVAllDownloadButtonType) => {
   const CVSData = data.map((history) => ({
     id: history.id,
     character_name: history.character_name,
