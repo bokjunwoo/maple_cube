@@ -1,6 +1,6 @@
 import { CSVLink } from 'react-csv';
 import { CubeHistory } from '../api/api';
-import { flattenOptions } from '../util/util';
+import { transformDataToCSV } from '../util/util';
 import { CustomButtonUI } from './ui/CustomButtonUI';
 import { Box } from '@mui/material';
 
@@ -9,30 +9,7 @@ type CSVAllDownloadButtonType = {
 };
 
 export const CSVAllDownloadButton = ({ data }: CSVAllDownloadButtonType) => {
-  const CVSData = data.map((history) => ({
-    id: history.id,
-    character_name: history.character_name,
-    create_date: history.create_date,
-    cube_type: history.cube_type,
-    item_upgrade_result: history.item_upgrade_result,
-    miracle_time_flag: history.miracle_time_flag,
-    item_equip_part: history.item_equip_part,
-    item_level: history.item_level,
-    target_item: history.target_item,
-    potential_option_grade: history.potential_option_grade,
-    additional_potential_option_grade:
-      history.additional_potential_option_grade,
-    upgradeguarantee: history.upgradeguarantee,
-    upgradeguaranteecount: history.upgradeguaranteecount,
-    before_potential_options: flattenOptions(history.before_potential_options),
-    before_additional_potential_options: flattenOptions(
-      history.before_additional_potential_options
-    ),
-    after_potential_options: flattenOptions(history.after_potential_options),
-    after_additional_potential_options: flattenOptions(
-      history.after_additional_potential_options
-    ),
-  }));
+  const CSVData = transformDataToCSV(data);
 
   const CVSheaders = [
     { label: 'ID', key: 'id' },
@@ -71,7 +48,7 @@ export const CSVAllDownloadButton = ({ data }: CSVAllDownloadButtonType) => {
       }}
     >
       <CSVLink
-        data={CVSData}
+        data={CSVData}
         headers={CVSheaders}
         filename="cube_histories"
         style={{ width: '100%', textDecoration: 'none' }}
