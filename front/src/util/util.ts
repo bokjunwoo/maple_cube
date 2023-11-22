@@ -83,3 +83,32 @@ export const transformDataToCSV = (data: CubeHistory[]) => {
     ),
   }));
 };
+
+export const CVSheaders = [
+  { label: 'ID', key: 'id' },
+  { label: '캐릭터 이름', key: 'character_name' },
+  { label: '큐브 사용 날짜', key: 'create_date' },
+  { label: '사용한 큐브', key: 'cube_type' },
+  { label: '큐브 사용 결과', key: 'item_upgrade_result' },
+  { label: '미라클 타임 적용 여부', key: 'miracle_time_flag' },
+  { label: '장비 분류', key: 'item_equip_part' },
+  { label: '장비 레벨', key: 'item_level' },
+  { label: '큐브를 사용한 장비', key: 'target_item' },
+  { label: '잠재능력 등급', key: 'potential_option_grade' },
+  {
+    label: '에디셔널 잠재능력 등급',
+    key: 'additional_potential_option_grade',
+  },
+  { label: '천장에 도달하여 확정 등급 상승한 여부', key: 'upgradeguarantee' },
+  { label: '현재까지 쌓은 스택', key: 'upgradeguaranteecount' },
+  { label: '큐브사용전 잠재능력 옵션', key: 'before_potential_options' },
+  {
+    label: '큐브사용전 에디셔널 잠재능력 옵션',
+    key: 'before_additional_potential_options',
+  },
+  { label: '큐브 사용 후 잠재능력 옵션', key: 'after_potential_options' },
+  {
+    label: '큐브 사용 후 에디셔널 잠재능력 옵션',
+    key: 'after_additional_potential_options',
+  },
+];
