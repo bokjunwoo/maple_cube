@@ -2,7 +2,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { CubeHistory } from '../api/api';
 import { AccordionUI } from './ui/AccordionUI';
 import { currentPageState, dataState } from '../atom/cubeDataState';
-import { Box, SelectChangeEvent } from '@mui/material';
+import { Box, SelectChangeEvent, useTheme } from '@mui/material';
 import { PaginationUI } from './ui/PaginationUI';
 import { useState } from 'react';
 import { PostListSelectUI } from './ui/PostListSelectUI';
@@ -21,6 +21,8 @@ export const SelectCubeGrade = ({
   potentialName,
   selectedCubeName,
 }: SelectCubeGradeType) => {
+  const theme = useTheme();
+
   const data = useRecoilValue(dataState);
 
   const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
@@ -71,8 +73,23 @@ export const SelectCubeGrade = ({
         />
       </Box>
 
-      <Box sx={{ mt: 3 }}>
-        <CSVAllDownloadButton data={data.cube_histories} />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          [theme.breakpoints.down('sm')]: {
+            display: 'block',
+          },
+        }}
+      >
+        <CSVAllDownloadButton
+          data={data.cube_histories}
+          size={{ xs: '100%', sm: '49%' }}
+        />
+        <CSVAllDownloadButton
+          data={data.cube_histories}
+          size={{ xs: '100%', sm: '49%' }}
+        />
       </Box>
     </>
   );
