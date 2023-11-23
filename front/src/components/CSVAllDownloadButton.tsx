@@ -6,23 +6,27 @@ import { Box } from '@mui/material';
 
 type CSVAllDownloadButtonType = {
   data: CubeHistory[];
+  size: Record<string, string>;
 };
 
-export const CSVAllDownloadButton = ({ data }: CSVAllDownloadButtonType) => {
+export const CSVAllDownloadButton = ({
+  data,
+  size,
+}: CSVAllDownloadButtonType) => {
   const CSVData = transformDataToCSV(data);
 
   return (
     <Box
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
+        mt: 3,
+        width: size,
       }}
     >
       <CSVLink
         data={CSVData}
         headers={CVSheaders}
         filename="cube_histories"
-        style={{ width: '100%', textDecoration: 'none' }}
+        style={{ textDecoration: 'none' }}
       >
         <CustomButtonUI
           width="100%"
