@@ -7,11 +7,13 @@ import { Box } from '@mui/material';
 type CSVAllDownloadButtonType = {
   data: CubeHistory[];
   size: Record<string, string>;
+  text: string;
 };
 
 export const CSVAllDownloadButton = ({
   data,
   size,
+  text,
 }: CSVAllDownloadButtonType) => {
   const CSVData = transformDataToCSV(data);
 
@@ -31,7 +33,7 @@ export const CSVAllDownloadButton = ({
         <CustomButtonUI
           width="100%"
           height="56px"
-          text="엑셀파일 다운로드"
+          text={text}
           bgColor="#f0ecc5"
           color="black"
           variant="subtitle1"
