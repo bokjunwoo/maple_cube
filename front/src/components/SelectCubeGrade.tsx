@@ -1,7 +1,13 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { CubeHistory } from '../api/api';
 import { AccordionUI } from './ui/AccordionUI';
-import { currentPageState, dataState } from '../atom/cubeDataState';
+import {
+  currentPageState,
+  dataState,
+  endDateState,
+  selectedItemState,
+  startDateState,
+} from '../atom/cubeDataState';
 import { Box, SelectChangeEvent, useTheme } from '@mui/material';
 import { PaginationUI } from './ui/PaginationUI';
 import { useState } from 'react';
@@ -21,9 +27,10 @@ export const SelectCubeGrade = ({
   potentialName,
   selectedCubeName,
 }: SelectCubeGradeType) => {
-  const theme = useTheme();
-
   const data = useRecoilValue(dataState);
+  const startDate = useRecoilValue(startDateState);
+  const endDate = useRecoilValue(endDateState);
+  const selectedItem = useRecoilValue(selectedItemState);
 
   const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
   const [pageSize, setPageSize] = useState(20);
@@ -54,6 +61,13 @@ export const SelectCubeGrade = ({
 
   const selectedGradesLength = selectedGrades.length;
 
+  const selectedItemCVSText = selectedItem + ' 엑셀 파일 다운';
+  const allCVSText =
+    startDate?.format('YYYY.MM.DD') +
+    '~' +
+    endDate?.format('YYYY.MM.DD') +
+    ' 엑셀 파일 다운';
+
   return (
     <>
       <PostListSelectUI value={pageSize} handleChange={handlePageSizeChange} />
@@ -73,22 +87,16 @@ export const SelectCubeGrade = ({
         />
       </Box>
 
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          [theme.breakpoints.down('sm')]: {
-            display: 'block',
-          },
-        }}
-      >
+      <Box>
         <CSVAllDownloadButton
-          data={data.cube_histories}
-          size={{ xs: '100%', sm: '49%' }}
+          data={filterdata}
+          size="100%"
+          text={selectedItemCVSText}
         />
         <CSVAllDownloadButton
           data={data.cube_histories}
-          size={{ xs: '100%', sm: '49%' }}
+          size="100%"
+          text={allCVSText}
         />
       </Box>
     </>
