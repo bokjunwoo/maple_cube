@@ -4,18 +4,18 @@ import { CVSheaders, transformDataToCSV } from '../util/util';
 import { CustomButtonUI } from './ui/CustomButtonUI';
 import { Box } from '@mui/material';
 
-type CSVAllDownloadButtonType = {
+type CVSAllDownloadButtonType = {
   data: CubeHistory[];
   size: string;
   text: string;
 };
 
-export const CSVAllDownloadButton = ({
+export const CVSAllDownloadButton = ({
   data,
   size,
   text,
-}: CSVAllDownloadButtonType) => {
-  const CSVData = transformDataToCSV(data);
+}: CVSAllDownloadButtonType) => {
+  const CVSData = transformDataToCSV(data);
 
   return (
     <Box
@@ -25,7 +25,7 @@ export const CSVAllDownloadButton = ({
       }}
     >
       <CSVLink
-        data={CSVData}
+        data={CVSData}
         headers={CVSheaders}
         filename="cube_histories"
         style={{ textDecoration: 'none' }}

@@ -12,7 +12,7 @@ import { Box, SelectChangeEvent, useTheme } from '@mui/material';
 import { PaginationUI } from './ui/PaginationUI';
 import { useState } from 'react';
 import { PostListSelectUI } from './ui/PostListSelectUI';
-import { CSVAllDownloadButton } from './CSVAllDownloadButton';
+import { CVSAllDownloadButton } from './CVSAllDownloadButton';
 
 type SelectCubeGradeType = {
   filterdata: CubeHistory[];
@@ -88,12 +88,12 @@ export const SelectCubeGrade = ({
       </Box>
 
       <Box>
-        <CSVAllDownloadButton
+        <CVSAllDownloadButton
           data={filterdata}
           size="100%"
           text={selectedItemCVSText}
         />
-        <CSVAllDownloadButton
+        <CVSAllDownloadButton
           data={data.cube_histories}
           size="100%"
           text={allCVSText}
