@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 
 type CSVAllDownloadButtonType = {
   data: CubeHistory[];
-  size: Record<string, string>;
+  size: string;
   text: string;
 };
 
