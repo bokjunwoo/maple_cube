@@ -8,7 +8,7 @@ import {
   selectedItemState,
   startDateState,
 } from '../atom/cubeDataState';
-import { Box, SelectChangeEvent, useTheme } from '@mui/material';
+import { Box, SelectChangeEvent } from '@mui/material';
 import { PaginationUI } from './ui/PaginationUI';
 import { useState } from 'react';
 import { PostListSelectUI } from './ui/PostListSelectUI';
